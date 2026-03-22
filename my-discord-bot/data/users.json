@@ -1,0 +1,32 @@
+{
+  "825624572673261638": {
+    "level": 1,
+    "xp": 0,
+    "hp": 97,
+    "maxHp": 100,
+    "attack": 10,
+    "defense": 5,
+    "gold": 50,
+    "inventory": [
+      "Küçük Kılıç"
+    ],
+    "equipment": {
+      "weapon": null,
+      "armor": null
+    }
+  },
+  "423889250052734986": {
+    "level": 1,
+    "xp": 0,
+    "hp": 100,
+    "maxHp": 100,
+    "attack": 10,
+    "defense": 5,
+    "gold": 100,
+    "inventory": [],
+    "equipment": {
+      "weapon": null,
+      "armor": null
+    }
+  }
+}
