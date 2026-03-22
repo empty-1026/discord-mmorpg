@@ -12,7 +12,7 @@ module.exports = {
 				.setDescription('Kullanmak istediğin eşya')
 				.setRequired(true)
 				.addChoices(
-					{ name: 'Can Pojesyonu', value: 'Can Pojesyonu' }
+					{ name: 'Can iksiri', value: 'Can iksiri' }
 				)
 		),
 

@@ -17,7 +17,7 @@ module.exports = {
 						{ name: 'Büyük Kılıç', value: 'Büyük Kılıç' },
 						{ name: 'Derin Zırh', value: 'Derin Zırh' },
 						{ name: 'Ejderha Zırhı', value: 'Ejderha Zırhı' },
-						{ name: 'Can Pojesyonu', value: 'Can Pojesyonu' }
+						{ name: 'Can iksiri', value: 'Can iksiri' }
 					)
 				)
 		)
@@ -31,7 +31,7 @@ module.exports = {
 						{ name: 'Büyük Kılıç', value: 'Büyük Kılıç' },
 						{ name: 'Derin Zırh', value: 'Derin Zırh' },
 						{ name: 'Ejderha Zırhı', value: 'Ejderha Zırhı' },
-						{ name: 'Can Pojesyonu', value: 'Can Pojesyonu' }
+						{ name: 'Can iksiri', value: 'Can iksiri' }
 					)
 				)
 		),

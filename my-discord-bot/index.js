@@ -34,11 +34,19 @@ client.on(Events.InteractionCreate, async interaction => {
 	try {
 		await command.execute(interaction);
 	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'Bir hata oluştu.', ephemeral: true });
-		} else {
-			await interaction.reply({ content: 'Bir hata oluştu.', ephemeral: true });
+		console.error('Komut çalıştırılırken hata:', error);
+		const errorMessage = error?.code === 405
+			? 'Discord API Method Not Allowed (405): Lütfen komut veya izinleri kontrol edin.'
+			: 'Bir hata oluştu.';
+
+		try {
+			if (interaction.replied || interaction.deferred) {
+				await interaction.followUp({ content: errorMessage, ephemeral: true });
+			} else {
+				await interaction.reply({ content: errorMessage, ephemeral: true });
+			}
+		} catch (replyError) {
+			console.error('Hata mesajı gönderilemedi:', replyError);
 		}
 	}
 });

@@ -1,5 +1,3 @@
-const { urlSafeCharacters } = require("discord.js");
-
 const items = {
 	"Küçük Kılıç": {
 		price: 50,
