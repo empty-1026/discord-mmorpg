@@ -1,3 +1,5 @@
+const { urlSafeCharacters } = require("discord.js");
+
 const items = {
 	"Küçük Kılıç": {
 		price: 50,
@@ -19,7 +21,8 @@ const items = {
 		effect: { defense: 10 },
 		description: 'İleri savunma sağlar',
 	},
-	"Can Pojesyonu": {
+	"Can iksiri": {
+		img: './assets/can_iksiri.png',
 		price: 40,
 		effect: { hp: 30 },
 		description: 'HP yeniler',
