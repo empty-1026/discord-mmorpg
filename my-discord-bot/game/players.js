@@ -47,7 +47,12 @@ function getPlayer(userId) {
 	return db[userId];
 }
 
+
 function setPlayer(userId, playerData) {
+	// Envanterde maksimum 10 eşya sınırı uygula (kuşanılanlar hariç)
+	if (Array.isArray(playerData.inventory) && playerData.inventory.length > 10) {
+		playerData.inventory = playerData.inventory.slice(0, 10);
+	}
 	const db = loadAll();
 	db[userId] = playerData;
 	saveAll(db);

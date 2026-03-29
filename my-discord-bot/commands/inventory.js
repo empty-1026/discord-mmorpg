@@ -1,6 +1,7 @@
-const { SlashCommandBuilder } = require('discord.js');
+const path = require('path');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { getPlayer } = require('../game/players');
-const { getItem } = require('../game/items');
+const { getItem, getItemName, formatItemName } = require('../game/items');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,15 +14,31 @@ module.exports = {
 			return interaction.reply({ content: 'Envanterin boş.', ephemeral: true });
 		}
 
-		const lines = player.inventory.map((name, index) => {
+
+		// Her eşya için ayrı embed oluştur, görsel varsa embed image olarak ekle
+		const embeds = [];
+		const files = [];
+		const maxItems = 10;
+		player.inventory.slice(0, maxItems).forEach((name, index) => {
 			const item = getItem(name);
-			const stats = item ? `(+${item.effect.attack || 0} ATK, +${item.effect.defense || 0} DEF, +${item.effect.hp || 0} HP)` : '';
-			return `${index + 1}. ${name} ${stats}`;
+			if (!item) return;
+			const stats = [];
+			if (item.effect.attack) stats.push(`+${item.effect.attack} ATK`);
+			if (item.effect.defense) stats.push(`+${item.effect.defense} DEF`);
+			if (item.effect.hp) stats.push(`+${item.effect.hp} HP`);
+			const statsText = stats.length ? ` (${stats.join(", ")})` : '';
+			const itemKey = getItemName(name);
+			const embed = new EmbedBuilder()
+				.setTitle(`${itemKey}${statsText}`)
+				.setFooter({ text: `Seviye: ${player.level} | Altın: ${player.gold}` });
+			embeds.push(embed);
 		});
 
-		return interaction.reply({
-			content: `🎒 ${interaction.user.username} envanteri:\n${lines.join('\n')}\n\nSeviye: ${player.level}, Altın: ${player.gold}`,
-			ephemeral: true,
-		});
+		// Eğer envanterde hiç eşya yoksa
+		if (embeds.length === 0) {
+			return interaction.reply({ content: 'Envanterin boş.', ephemeral: true });
+		}
+
+		return interaction.reply({ embeds, files, ephemeral: true });
 	},
 };

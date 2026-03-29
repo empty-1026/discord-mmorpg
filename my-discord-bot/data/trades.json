@@ -1,0 +1,34 @@
+{
+  "T1774305842145_5815": {
+    "id": "T1774305842145_5815",
+    "from": "825624572673261638",
+    "to": "423889250052734986",
+    "offer": {
+      "item": "Ejderha Zırhı",
+      "gold": 0
+    },
+    "request": {
+      "item": null,
+      "gold": 80
+    },
+    "status": "accepted",
+    "createdAt": 1774305842146,
+    "acceptedAt": 1774305889377
+  },
+  "T1774305982571_3901": {
+    "id": "T1774305982571_3901",
+    "from": "825624572673261638",
+    "to": "423889250052734986",
+    "offer": {
+      "item": null,
+      "gold": 125
+    },
+    "request": {
+      "item": "Ejderha Zırhı",
+      "gold": 0
+    },
+    "status": "accepted",
+    "createdAt": 1774305982572,
+    "acceptedAt": 1774306010099
+  }
+}

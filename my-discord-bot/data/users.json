@@ -1,19 +1,17 @@
 {
   "825624572673261638": {
     "level": 1,
-    "xp": 0,
-    "hp": 100,
+    "xp": 70,
+    "hp": 87,
     "maxHp": 100,
     "attack": 10,
     "defense": 5,
-    "gold": 790,
+    "gold": 150,
     "inventory": [
-      "Küçük Kılıç",
-      "Ejderha Zırhı",
       "Can iksiri"
     ],
     "equipment": {
-      "weapon": "Küçük Kılıç",
+      "weapon": "Büyük Kılıç",
       "armor": "Ejderha Zırhı"
     }
   },

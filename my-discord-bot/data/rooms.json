@@ -1,0 +1,17 @@
+{
+  "oda_1774306071960_35958": {
+    "id": "oda_1774306071960_35958",
+    "name": "55",
+    "owner": "423889250052734986",
+    "createdAt": "2026-03-23T22:47:51.960Z",
+    "terrain": "Antik Harabe",
+    "monster": "Hayalet",
+    "monsterHp": 68,
+    "monsterAttack": 7,
+    "treasure": "Büyülü İksir",
+    "lootGold": 48,
+    "players": [
+      "423889250052734986"
+    ]
+  }
+}

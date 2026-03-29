@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { getPlayer, setPlayer } = require('../game/players');
+const { createHpBar } = require('../utils/hpBar');
 
 function createBoss(playerLevel) {
 	if (playerLevel < 5) {
@@ -20,7 +21,8 @@ module.exports = {
 		const player = getPlayer(interaction.user.id);
 		const boss = createBoss(player.level);
 
-		let log = `🔥 Boss savaşı: ${boss.name} (Lv ${player.level})\n`;
+		const bossBar = createHpBar(boss.hp, boss.hp);
+		let log = `🔥 Boss savaşı: ${boss.name} (Lv ${player.level})\n**${boss.name}:** ${bossBar} ${boss.hp}/${boss.hp}\n\n`;
 
 const equipment = player.equipment || { weapon: null, armor: null };
 	const setBonus = {
@@ -58,14 +60,16 @@ const equipment = player.equipment || { weapon: null, armor: null };
 		while (pHp > 0 && bHp > 0 && round <= 12) {
 			const pDmg = Math.max(1, playerEffectiveAttack - boss.defense);
 			bHp -= pDmg;
-			log += `🌟 Runde ${round}: Sen ${pDmg} vurdun, boss HP ${Math.max(0, bHp)}\n`;
+			const bossBossBar = createHpBar(Math.max(0, bHp), boss.hp);
+			log += `🌟 Runde ${round}: Sen ${pDmg} vurdun\n**${boss.name}:** ${bossBossBar} ${Math.max(0, bHp)}/${boss.hp}\n`;
 			if (bHp <= 0) break;
 
 			const bossScale = 1 + (player.level >= 10 ? 0.25 : player.level >= 5 ? 0.15 : 0.08);
 			const rawBossAttack = boss.attack + Math.floor(boss.hp / 40);
 			const bDmg = Math.max(1, Math.floor(rawBossAttack * bossScale) - playerEffectiveDefense);
 			pHp -= bDmg;
-			log += `💥 Boss ${bDmg} vurdu (x${bossScale.toFixed(2)}), senin HP ${Math.max(0, pHp)}\n`;
+			const playerBar = createHpBar(Math.max(0, pHp), player.maxHp);
+			log += `💥 Boss ${bDmg} vurdu (x${bossScale.toFixed(2)})\n**Senin HP:** ${playerBar} ${Math.max(0, pHp)}/${player.maxHp}\n`;
 			round += 1;
 		}
 
@@ -86,7 +90,11 @@ const equipment = player.equipment || { weapon: null, armor: null };
 			}
 
 			setPlayer(interaction.user.id, player);
-			return interaction.reply({ content: log, ephemeral: true });
+			const { EmbedBuilder } = require('discord.js');
+			const embed = new EmbedBuilder()
+				.setTitle('Boss Savaşı Sonucu')
+				.setDescription(log);
+			return interaction.reply({ embeds: [embed], ephemeral: true });
 		}
 
 		if (pHp <= 0) {

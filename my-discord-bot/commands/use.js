@@ -1,6 +1,8 @@
-const { SlashCommandBuilder } = require('discord.js');
+
+const path = require('path');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { getPlayer, setPlayer } = require('../game/players');
-const { getItem } = require('../game/items');
+const { getItem, formatItemName } = require('../game/items');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,7 +14,7 @@ module.exports = {
 				.setDescription('Kullanmak istediğin eşya')
 				.setRequired(true)
 				.addChoices(
-					{ name: 'Can iksiri', value: 'Can iksiri' }
+					{ name: '🧪 Can iksiri', value: 'Can iksiri' }
 				)
 		),
 
@@ -37,9 +39,9 @@ module.exports = {
 		}
 
 		setPlayer(interaction.user.id, player);
-		return interaction.reply({
-			content: `${itemName} kullanıldı! Şu anki HP: ${player.hp}/${player.maxHp}`,
-			ephemeral: true,
-		});
+		const embed = new EmbedBuilder()
+			.setTitle(`${itemName} kullanıldı!`)
+			.setDescription(`Şu anki HP: ${player.hp}/${player.maxHp}`);
+		return interaction.reply({ embeds: [embed], ephemeral: true });
 	},
 };

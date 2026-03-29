@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { getPlayer, setPlayer } = require('../game/players');
-const { getItem } = require('../game/items');
+const { getItem, formatItemName } = require('../game/items');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,10 +12,10 @@ module.exports = {
 				.setDescription('Kuşanmak istediğin eşya')
 				.setRequired(true)
 				.addChoices(
-					{ name: 'Küçük Kılıç', value: 'Küçük Kılıç' },
-					{ name: 'Büyük Kılıç', value: 'Büyük Kılıç' },
-					{ name: 'Derin Zırh', value: 'Derin Zırh' },
-					{ name: 'Ejderha Zırhı', value: 'Ejderha Zırhı' }
+					{ name: '🗡️ Küçük Kılıç', value: 'Küçük Kılıç' },
+					{ name: '⚔️ Büyük Kılıç', value: 'Büyük Kılıç' },
+					{ name: '🛡️ Derin Zırh', value: 'Derin Zırh' },
+					{ name: '🐉 Ejderha Zırhı', value: 'Ejderha Zırhı' }
 				)
 		),
 
@@ -37,9 +37,10 @@ module.exports = {
 		if (item.effect.defense) player.equipment.armor = itemName;
 		setPlayer(interaction.user.id, player);
 
-		return interaction.reply({
-			content: `${itemName} kuşandı!`,
-			ephemeral: true,
-		});
+		const path = require('path');
+		const { EmbedBuilder } = require('discord.js');
+		const embed = new EmbedBuilder()
+			.setTitle(`${itemName} kuşandı!`);
+		return interaction.reply({ embeds: [embed], ephemeral: true });
 	},
 };
