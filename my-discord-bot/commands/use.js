@@ -14,8 +14,11 @@ module.exports = {
 				.setDescription('Kullanmak istediğin eşya')
 				.setRequired(true)
 				.addChoices(
-					{ name: '🧪 Can iksiri', value: 'Can iksiri' }
-				)
+          { name: '🗡️ Küçük Kılıç', value: 'Küçük Kılıç' },
+          { name: '⚔️ Büyük Kılıç', value: 'Büyük Kılıç' },
+          { name: '🛡️ Derin Zırh', value: 'Derin Zırh' },
+          { name: '🐉 Ejderha Zırhı', value: 'Ejderha Zırhı' }
+        )
 		),
 
 	async execute(interaction) {
@@ -23,25 +26,35 @@ module.exports = {
 		const itemName = interaction.options.getString('esya');
 		const item = getItem(itemName);
 
-		if (!item) {
-			return interaction.reply({ content: 'Bu eşya kullanılabilir değil.', ephemeral: true });
-		}
+		 if (!item || (!item.effect?.attack && !item.effect?.defense)) {
+      return interaction.reply({ content: 'Bu eşya kuşanılabilir değil.', ephemeral: true });
+    }
 
-		const idx = player.inventory.indexOf(itemName);
-		if (idx === -1) {
-			return interaction.reply({ content: 'Bu eşya envanterinde yok.', ephemeral: true });
-		}
+    if (!player.inventory.includes(itemName)) {
+      return interaction.reply({ content: 'Bu eşya envanterinde yok.', ephemeral: true });
+    }
 
-		player.inventory.splice(idx, 1);
+  player.equipment = player.equipment || {};
 
-		if (item.effect.hp) {
-			player.hp = Math.min(player.maxHp, player.hp + item.effect.hp);
-		}
+    if (item.effect.attack) player.equipment.weapon = itemName;
+    if (item.effect.defense) player.equipment.armor = itemName;
 
-		setPlayer(interaction.user.id, player);
-		const embed = new EmbedBuilder()
-			.setTitle(`${itemName} kullanıldı!`)
-			.setDescription(`Şu anki HP: ${player.hp}/${player.maxHp}`);
-		return interaction.reply({ embeds: [embed], ephemeral: true });
-	},
+    setPlayer(interaction.user.id, player);
+
+    const embed = new EmbedBuilder()
+      .setTitle(`${formatItemName(itemName)} kuşandı!`)
+      .setDescription(item.description || 'Açıklama yok');
+
+    const imagePath = getItemImagePath(itemName);
+    if (imagePath) {
+      embed.setThumbnail('attachment://equip.png');
+      return interaction.reply({
+        embeds: [embed],
+        files: [{ attachment: imagePath, name: 'equip.png' }],
+        ephemeral: true,
+      });
+    }
+
+    return interaction.reply({ embeds: [embed], ephemeral: true });
+	  },
 };

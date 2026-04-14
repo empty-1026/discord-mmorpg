@@ -29,16 +29,44 @@ module.exports = {
 			const statsText = stats.length ? ` (${stats.join(", ")})` : '';
 			const itemKey = getItemName(name);
 			const embed = new EmbedBuilder()
+			.setTitle(formatItemName(name))
+			.setDescription(item.description || 'Açıklama yok.')
+			.addFields({
+          name: 'Etki',
+          value: stats.length ? stats.join(', ') : 'Yok',
+        })
 				.setTitle(`${itemKey}${statsText}`)
 				.setFooter({ text: `Seviye: ${player.level} | Altın: ${player.gold}` });
 			embeds.push(embed);
+			const imagepath = getitemimagepath(name);
+			setDescription(item.description || 'Açıklama yok.')
+			addFields({
+				name: 'Etki',
+				value: stats.length ? stats.join(', ') : 'Yok',
+			});
+			.setfooter({ text: `Seviye: ${player.level} | Altın: ${player.gold}` });
 		});
-
-		// Eğer envanterde hiç eşya yoksa
-		if (embeds.length === 0) {
+const imagepath = getitemimagepath(name);
+			if (imagepath) {
+				const filename = 'inevntory_item_' $ {index}.png';
+				embed.setthumbnail(`attachment://${filename}`);
+				files.push({ attachment: imagepath, name: filename });
+			}
+			embeds.push(embed);
+		});
+		if (!embeds.length) {
 			return interaction.reply({ content: 'Envanterin boş.', ephemeral: true });
 		}
 
 		return interaction.reply({ embeds, files, ephemeral: true });
-	},
-};
+	},};
+
+
+// 		// Eğer envanterde hiç eşya yoksa
+// 		if (embeds.length === 0) {
+// 			return interaction.reply({ content: 'Envanterin boş.', ephemeral: true });
+// 		}
+
+// 		return interaction.reply({ embeds, files, ephemeral: true });
+// 	},
+// };

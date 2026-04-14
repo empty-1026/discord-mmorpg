@@ -24,7 +24,7 @@ module.exports = {
 		const itemName = interaction.options.getString('esya');
 		const item = getItem(itemName);
 
-		if (!item || (!item.effect.attack && !item.effect.defense)) {
+		if (!item || (!item.effect?.attack && !item.effect?.defense)) {
 			return interaction.reply({ content: 'Bu eşya kuşanılabilir değil.', ephemeral: true });
 		}
 
@@ -33,14 +33,25 @@ module.exports = {
 		}
 
 		player.equipment = player.equipment || {};
-		if (item.effect.attack) player.equipment.weapon = itemName;
-		if (item.effect.defense) player.equipment.armor = itemName;
+
+		if (item.effect?.attack) player.equipment.weapon = itemName;
+		if (item.effect?.defense) player.equipment.armor = itemName;
 		setPlayer(interaction.user.id, player);
 
-		const path = require('path');
-		const { EmbedBuilder } = require('discord.js');
 		const embed = new EmbedBuilder()
-			.setTitle(`${itemName} kuşandı!`);
-		return interaction.reply({ embeds: [embed], ephemeral: true });
-	},
+      .setTitle(`${formatItemName(itemName)} kuşandı!`)
+      .setDescription(item.description || 'Açıklama yok');
+
+		 const imagePath = getItemImagePath(itemName);
+    if (imagePath) {
+      embed.setThumbnail('attachment://equip.png');
+      return interaction.reply({
+        embeds: [embed],
+        files: [{ attachment: imagePath, name: 'equip.png' }],
+        ephemeral: true,
+      });
+    }
+
+    return interaction.reply({ embeds: [embed], ephemeral: true });
+  },
 };
